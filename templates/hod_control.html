@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Control Center & Task Reports — {{ dept }} | G. Pulla Reddy Engineering College</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Enterprise Typography: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+
+    <!-- Chart.js for High-Definition Interactive Pie Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. EXECUTIVE INSTITUTIONAL DESIGN TOKENS
+           ========================================================================== */
+        :root {
+            /* Institutional Color Palette */
+            --primary-navy: #0F172A;
+            --brand-navy: #1E3A8A;
+            --secondary-blue: #2563EB;
+            --blue-hover: #1D4ED8;
+            --page-bg: #F6F8FB;
+            --card-white: #FFFFFF;
+
+            /* Structural Borders & Lines */
+            --border-light: #E2E8F0;
+            --border-medium: #CBD5E1;
+
+            /* Text & Readability */
+            --text-primary: #0F172A;
+            --text-secondary: #334155;
+            --text-muted: #64748B;
+
+            /* Category Status Indicators */
+            --color-ongoing: #2563EB;
+            --bg-ongoing: #EFF6FF;
+            --border-ongoing: #BFDBFE;
+
+            --color-completed: #059669;
+            --bg-completed: #ECFDF5;
+            --border-completed: #A7F3D0;
+
+            --bg-total: #F8FAFC;
+            --border-total: #E2E8F0;
+
+            /* Restrained Administrative Elevation */
+            --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+            --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 4px 12px 0 rgba(15, 23, 42, 0.02);
+            --shadow-card-hover: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+
+            /* Standard Restrained Radii (6px - 10px) */
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+
+            /* Interaction Speed */
+            --transition-speed: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--page-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ==========================================================================
+           2. FORMAL INSTITUTIONAL HEADER & IDENTITY
+           ========================================================================== */
+        .brand-header {
+            background-color: var(--card-white);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.125rem 0;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+        }
+
+        .brand-identity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .college-emblem {
+            width: 46px;
+            height: 46px;
+            background-color: var(--brand-navy);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        .brand-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.015em;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        /* HOD Identity & Restrained Logout */
+        .user-panel {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .user-designation {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 0.15rem;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-logout {
+            background-color: #FFFFFF;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            padding: 0.45rem 0.875rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-logout:hover {
+            background-color: #FEF2F2;
+            color: #B91C1C;
+            border-color: #FECACA;
+        }
+
+        /* ==========================================================================
+           3. MAIN ADMINISTRATIVE CONTENT AREA
+           ========================================================================== */
+        .main-content {
+            flex: 1;
+            padding: 2rem 0 3rem 0;
+        }
+
+        /* Administrative Action Toolbar */
+        .control-toolbar {
+            background-color: var(--card-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 0.875rem 1.25rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quick-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #FFFFFF;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 0.525rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            line-height: 1;
+        }
+
+        .btn-nav:hover {
+            background-color: #F8FAFC;
+            color: var(--primary-navy);
+            border-color: #94A3B8;
+        }
+
+        .btn-nav:focus-visible {
+            outline: 2px solid var(--secondary-blue);
+            outline-offset: 2px;
+        }
+
+        .btn-nav.primary {
+            background-color: var(--brand-navy);
+            color: #FFFFFF;
+            border-color: var(--brand-navy);
+        }
+
+        .btn-nav.primary:hover {
+            background-color: #172554;
+            border-color: #172554;
+            color: #FFFFFF;
+        }
+
+        /* Strictly Locked Department Scope Badge */
+        .dept-lock-badge {
+            background-color: #F8FAFC;
+            border: 1px solid var(--border-medium);
+            padding: 0.475rem 0.95rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--brand-navy);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            letter-spacing: 0.02em;
+        }
+
+        .dept-lock-badge i {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Section Heading & Scope Banner */
+        .charts-section-title {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .charts-section-title h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.015em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .charts-section-title h2 i {
+            color: var(--brand-navy) !important;
+            font-size: 1.1rem;
+        }
+
+        .scope-indicator-badge {
+            background-color: #FFFFFF;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-medium);
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           4. DUAL REPORT PANELS (LEVEL 1 & LEVEL 2)
+           ========================================================================== */
+        .pie-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .pie-card {
+            background-color: var(--card-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 2rem 1.75rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .pie-card:hover {
+            border-color: var(--border-medium);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .pie-card-header {
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pie-card-header h3 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.01em;
+        }
+
+        .pie-card-header p {
+            font-size: 0.78125rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        /* Chart Canvas Stage */
+        .pie-canvas-wrapper {
+            width: 250px;
+            height: 250px;
+            position: relative;
+            margin: 0.5rem auto 1.75rem auto;
+        }
+
+        /* ==========================================================================
+           5. EXECUTIVE METRICS TRI-GRID (ONGOING · COMPLETED · TOTAL)
+           ========================================================================== */
+        .metrics-three-box {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-card {
+            border-radius: var(--radius-sm);
+            padding: 0.875rem 0.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            transition: all var(--transition-speed);
+        }
+
+        .stat-card.ongoing {
+            background-color: var(--bg-ongoing);
+            border-color: var(--border-ongoing);
+        }
+
+        .stat-card.completed {
+            background-color: var(--bg-completed);
+            border-color: var(--border-completed);
+        }
+
+        .stat-card.total {
+            background-color: var(--bg-total);
+            border-color: var(--border-total);
+        }
+
+        .stat-card .label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-card.ongoing .label { color: #1D4ED8; }
+        .stat-card.completed .label { color: #047857; }
+        .stat-card.total .label { color: var(--text-muted); }
+
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            line-height: 1;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-card.ongoing .value { color: #1E40AF; }
+        .stat-card.completed .value { color: #065F46; }
+        .stat-card.total .value { color: var(--primary-navy); }
+
+        .stat-card .pct {
+            font-size: 0.71875rem;
+            margin-top: 0.35rem;
+            font-weight: 500;
+        }
+
+        .stat-card.ongoing .pct { color: #2563EB; }
+        .stat-card.completed .pct { color: #059669; }
+        .stat-card.total .pct { color: var(--text-muted); }
+
+        /* Typographic Executive Readout Line */
+        .summary-inline-banner {
+            width: 100%;
+            margin-top: 1.25rem;
+            padding: 0.65rem 0.85rem;
+            background-color: #F8FAFC;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.01em;
+        }
+
+        .summary-inline-banner strong {
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           6. INSTITUTIONAL FOOTER
+           ========================================================================== */
+        .footer-banner {
+            background-color: var(--card-white);
+            border-top: 1px solid var(--border-light);
+            padding: 1.25rem 0;
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            letter-spacing: 0.01em;
+        }
+
+        /* ==========================================================================
+           7. RESPONSIVE DESIGN (DESKTOP, LAPTOP, TABLET, MOBILE)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .pie-charts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .pie-canvas-wrapper {
+                width: 240px;
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .header-flex {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .user-panel {
+                width: 100%;
+                justify-content: space-between;
+                border-top: 1px solid var(--border-light);
+                padding-top: 0.75rem;
+            }
+            .user-info {
+                text-align: left;
+            }
+            .control-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            .quick-nav-actions {
+                justify-content: flex-start;
+            }
+            .charts-section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .stat-card .value {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-three-box {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .stat-card {
+                padding: 0.625rem;
+            }
+        }
+
+        /* ==========================================================================
+           8. OFFICIAL PRINT STYLING
+           ========================================================================== */
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #000000 !important;
+                padding: 0 !important;
+            }
+
+            .control-toolbar,
+            .btn-logout,
+            .btn-nav,
+            .dept-lock-badge {
+                display: none !important;
+            }
+
+            .brand-header {
+                box-shadow: none !important;
+                border-bottom: 2px solid #000000 !important;
+                padding: 0 0 1rem 0 !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .college-emblem {
+                background-color: transparent !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+            }
+
+            .main-content {
+                padding: 0 !important;
+            }
+
+            .pie-card {
+                border: 1px solid #CBD5E1 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+                padding: 1.5rem !important;
+            }
+
+            .charts-section-title {
+                border-bottom: 1px solid #000000 !important;
+            }
+
+            .stat-card {
+                border: 1px solid #CBD5E1 !important;
+                background-color: transparent !important;
+            }
+
+            .summary-inline-banner {
+                border: 1px solid #CBD5E1 !important;
+                background-color: transparent !important;
+            }
+
+            .footer-banner {
+                border-top: 1px solid #CBD5E1 !important;
+                font-size: 0.75rem !important;
+            }
+        }
+        .print-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    background: #ffffff;
+    color: #334155;
+
+    border: 1px solid #CBD5E1;
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.print-btn:hover {
+    background: #F8FAFC;
+    border-color: #94A3B8;
+    color: #0F172A;
+}
+
+.print-btn:active {
+    transform: translateY(1px);
+}
+    </style>
+</head>
+<body>
+
+    <!-- BRAND BANNER -->
+    <header class="brand-header">
+        <div class="container header-flex">
+            <div class="brand-identity">
+                <div class="college-emblem">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">G. Pulla Reddy Engineering College (Autonomous)</h1>
+                    <p class="brand-subtitle">Department of {{ dept }} · Task Progress & Workload Analytics</p>
+                </div>
+            </div>
+
+            <div class="user-panel">
+                <div class="user-info">
+                    <div class="user-name">{{ hod_name or "Head of Department" }}</div>
+                    <div class="user-designation">HOD — Department of {{ dept }}</div>
+                </div>
+                <a href="/logout" class="btn-logout" title="Sign out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- NAVIGATION TOOLBAR -->
+            <div class="control-toolbar">
+                <div class="quick-nav-actions">
+                 <a href="/HOD" class="print-btn">
+    <i class="fa-solid fa-gauge-high"></i>
+    Dashboard
+</a>
+
+                  <a class="print-btn" onclick="window.print()">
+    Print Pie Diagrams
+</a>
+                </div>
+
+                <!-- Strictly Locked Scope -->
+                <div class="dept-lock-badge">
+                    <i class="fa-solid fa-lock"></i> Scope: Department of {{ dept }}
+                </div>
+            </div>
+
+            <!-- SECTION HEADER -->
+            <div class="charts-section-title">
+                <h2>
+                    <i class="fa-solid fa-chart-pie" style="color: var(--brand-blue);"></i>
+                    Department Task & Workload Pie Diagrams
+                </h2>
+                <span class="scope-indicator-badge">
+                    Department of {{ dept }}
+                </span>
+            </div>
+
+            <!-- TWO PIE DIAGRAMS GRID -->
+            <div class="pie-charts-grid">
+
+                <!-- PIE DIAGRAM 1: LEVEL 1 — UNIQUE TASKS -->
+                <div class="pie-card">
+                    <div class="pie-card-header">
+                        <h3>Level 1 — {{ dept }} Unique Task Status</h3>
+                        <p>Departmental tasks: Completed only when all assigned faculty finish</p>
+                    </div>
+
+                    <div class="pie-canvas-wrapper">
+                        <canvas id="taskPieChart"></canvas>
+                    </div>
+
+                    <!-- ONGOING 18 | COMPLETED 9 | TOTAL 27 -->
+                    <div class="metrics-three-box">
+                        <div class="stat-card ongoing">
+                            <span class="label">Ongoing</span>
+                            <span class="value">{{ stats.task_ongoing }}</span>
+                            <span class="pct">
+                                {% if stats.task_total > 0 %}
+                                    {{ ((stats.task_ongoing / stats.task_total) * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="stat-card completed">
+                            <span class="label">Completed</span>
+                            <span class="value">{{ stats.task_completed }}</span>
+                            <span class="pct">
+                                {% if stats.task_total > 0 %}
+                                    {{ ((stats.task_completed / stats.task_total) * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="stat-card total">
+                            <span class="label">Total</span>
+                            <span class="value">{{ stats.task_total }}</span>
+                            <span class="pct">Tasks</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-inline-banner">
+                        Ongoing: <strong style="color: var(--color-ongoing);">{{ stats.task_ongoing }}</strong> &nbsp;|&nbsp;
+                        Completed: <strong style="color: var(--color-completed);">{{ stats.task_completed }}</strong> &nbsp;|&nbsp;
+                        Total: <strong>{{ stats.task_total }}</strong>
+                    </div>
+                </div>
+
+                <!-- PIE DIAGRAM 2: LEVEL 2 — FACULTY ASSIGNMENTS -->
+                <div class="pie-card">
+                    <div class="pie-card-header">
+                        <h3>Level 2 — {{ dept }} Faculty Workload Status</h3>
+                        <p>Total individual workload allocations within {{ dept }}</p>
+                    </div>
+
+                    <div class="pie-canvas-wrapper">
+                        <canvas id="assignPieChart"></canvas>
+                    </div>
+
+                    <!-- ONGOING | COMPLETED | TOTAL -->
+                    <div class="metrics-three-box">
+                        <div class="stat-card ongoing">
+                            <span class="label">Ongoing</span>
+                            <span class="value">{{ stats.assign_ongoing }}</span>
+                            <span class="pct">
+                                {% if stats.assign_total > 0 %}
+                                    {{ ((stats.assign_ongoing / stats.assign_total) * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="stat-card completed">
+                            <span class="label">Completed</span>
+                            <span class="value">{{ stats.assign_completed }}</span>
+                            <span class="pct">
+                                {% if stats.assign_total > 0 %}
+                                    {{ ((stats.assign_completed / stats.assign_total) * 100)|round(1) }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="stat-card total">
+                            <span class="label">Total</span>
+                            <span class="value">{{ stats.assign_total }}</span>
+                            <span class="pct">Assignments</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-inline-banner">
+                        Ongoing: <strong style="color: var(--color-ongoing);">{{ stats.assign_ongoing }}</strong> &nbsp;|&nbsp;
+                        Completed: <strong style="color: var(--color-completed);">{{ stats.assign_completed }}</strong> &nbsp;|&nbsp;
+                        Total: <strong>{{ stats.assign_total }}</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-banner">
+        <div class="container">
+            G. Pulla Reddy Engineering College (Autonomous), Kurnool · Department of {{ dept }} · Task Monitoring System
+        </div>
+    </footer>
+
+    <!-- RENDER 2-CATEGORY PIE DIAGRAMS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const taskOngoing   = {{ stats.task_ongoing|default(0) }};
+            const taskCompleted = {{ stats.task_completed|default(0) }};
+
+            const assignOngoing   = {{ stats.assign_ongoing|default(0) }};
+            const assignCompleted = {{ stats.assign_completed|default(0) }};
+
+            const pieOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'Inter', size: 12, weight: 600 },
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const val = context.raw || 0;
+                                const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                                return ` ${context.label}: ${val} (${pct}%)`;
+                            }
+                        }
+                    }
+                }
+            };
+
+            // 1. Task Pie Chart (Ongoing vs Completed)
+            const ctxTask = document.getElementById('taskPieChart').getContext('2d');
+            new Chart(ctxTask, {
+                type: 'pie',
+                data: {
+                    labels: [`Ongoing (${taskOngoing})`, `Completed (${taskCompleted})`],
+                    datasets: [{
+                        data: [taskOngoing, taskCompleted],
+                        backgroundColor: ['#2563EB', '#059669'],
+                        borderWidth: 2,
+                        borderColor: '#FFFFFF'
+                    }]
+                },
+                options: pieOptions
+            });
+
+            // 2. Assignment Pie Chart (Ongoing vs Completed)
+            const ctxAssign = document.getElementById('assignPieChart').getContext('2d');
+            new Chart(ctxAssign, {
+                type: 'pie',
+                data: {
+                    labels: [`Ongoing (${assignOngoing})`, `Completed (${assignCompleted})`],
+                    datasets: [{
+                        data: [assignOngoing, assignCompleted],
+                        backgroundColor: ['#2563EB', '#059669'],
+                        borderWidth: 2,
+                        borderColor: '#FFFFFF'
+                    }]
+                },
+                options: pieOptions
+            });
+        });
+    </script>
+</body>
+</html>

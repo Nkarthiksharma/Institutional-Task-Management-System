@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Task Directory | G Pulla Reddy Engineering College</title>
+
+    <!-- Dependencies -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+    <style>
+        /* ==========================================================================
+           1. EXECUTIVE COLOR PALETTE & SYSTEM VARIABLES
+           ========================================================================== */
+        :root {
+            --primary-navy: #0F172A;
+            --brand-blue: #1E3A8A;
+            --secondary-blue: #2563EB;
+            --blue-hover: #1D4ED8;
+            --bg-slate: #F8FAFC;
+            --card-white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --success-color: #059669;
+            --danger-color: #DC2626;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+            --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-dark);
+            padding-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* ==========================================================================
+           2. BRAND BANNER & BACK BUTTON
+           ========================================================================== */
+        .brand-banner {
+            background: var(--card-white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .banner-top-bar {
+            margin-bottom: 0.875rem;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            background-color: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+            min-height: 40px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background-color: #F1F5F9;
+            border-color: #CBD5E1;
+            color: var(--primary-navy);
+        }
+
+        .btn-back:focus-visible {
+            outline: 2px solid var(--secondary-blue);
+            outline-offset: 2px;
+        }
+
+        .brand-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.02em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 0.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .workspace-badge {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            color: var(--brand-blue);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Header Section */
+        .header-section {
+            margin: 1.75rem 0 1.5rem 0;
+        }
+
+        .page-heading {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-heading i {
+            color: var(--secondary-blue);
+        }
+
+        .page-subheading {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* ==========================================================================
+           3. DATA TABLE & HORIZONTAL CONTAINER
+           ========================================================================== */
+        .card-table-container {
+            background: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 950px; /* Ensures full horizontal table structure */
+        }
+
+        .table th {
+            background: #F1F5F9;
+            color: var(--primary-navy);
+            padding: 0.875rem 0.875rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .date-hint {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            text-transform: lowercase;
+        }
+
+        .table td {
+            padding: 0.875rem 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            vertical-align: middle;
+            color: var(--text-dark);
+        }
+
+        .table tbody tr:hover {
+            background-color: #EFF6FF;
+        }
+
+        /* Action Button */
+        .btn-view {
+            background-color: var(--secondary-blue);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-view:hover {
+            background-color: var(--blue-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-view:focus-visible {
+            outline: 2px solid var(--secondary-blue);
+            outline-offset: 2px;
+        }
+
+        /* ==========================================================================
+           4. MOBILE RESPONSIVE ADJUSTMENTS
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .brand-wrapper {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .brand-subtitle {
+                justify-content: center;
+            }
+
+            .btn-view {
+                min-height: 44px; /* Touch target optimized */
+                padding: 0.55rem 1.125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Institution Branding Banner -->
+    <div class="brand-banner">
+        <div class="container">
+            <div class="banner-top-bar">
+                <form action="backbutton" method="GET">
+                <button class="btn-back" type="submit">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </button>
+                    </form>
+            </div>
+            <div class="brand-wrapper">
+                <div>
+                    <h1 class="brand-title">G Pulla Reddy Engineering College</h1>
+                    <div class="brand-subtitle"><i class="fa-solid fa-graduation-cap me-1"></i> Autonomous Institution</div>
+                </div>
+                <div class="workspace-badge">
+                    <i class="fa-solid fa-user-pen me-1"></i> Author Space
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Header Title Section -->
+        <div class="header-section">
+            <h2 class="page-heading"><i class="fa-solid fa-file-signature me-2"></i>Author Task Directory</h2>
+            <p class="page-subheading">Manage created task entries, update schedules, and verify operational checkpoints.</p>
+        </div>
+
+        <!-- Task Directory Table Card (Horizontal Scrollable Table) -->
+        <div class="card-table-container">
+            <form action="/updateTaskByAuthor" method="POST">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">Task ID</th>
+                                <th style="width: 20%;">Task Name</th>
+                                <th style="width: 32%;">Task Details</th>
+                                <th style="width: 12%;">Created On <span class="date-hint">(yyyy-mm-dd)</span></th>
+                                <th style="width: 12%;">Report On <span class="date-hint">(yyyy-mm-dd)</span></th>
+                                <th style="width: 12%;">Due Date <span class="date-hint">(yyyy-mm-dd)</span></th>
+                                <th style="width: 4%; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
+                            <tr>
+                                <td style="font-weight: 700; color: var(--text-muted);">{{ row[0] }}</td>
+                                <td style="font-weight: 600; color: var(--text-dark);">{{ row[1] }}</td>
+                                <td style="color: var(--text-muted); font-size: 0.85rem;">{{ row[2] }}</td>
+                                <td style="color: var(--text-muted); font-weight: 500; font-size: 0.85rem;">{{ row[6] }}</td>
+                                <td style="color: var(--text-muted); font-weight: 500; font-size: 0.85rem;">{{ row[3] }}</td>
+                                <td style="font-weight: 600; color: var(--danger-color); font-size: 0.85rem;">{{ row[4] }}</td>
+                                <td style="text-align: center;">
+                                    <button type="submit" name="id" value="{{ row[0] }}" class="btn-view">
+                                        <i class="fa-regular fa-eye me-1"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
