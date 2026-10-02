@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty & Staff Portal | G Pulla Reddy Engineering College</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Professional Google Font: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+    <style>
+        /* ==========================================================================
+           1. ENTERPRISE DESIGN TOKENS & SYSTEM VARIABLES
+           ========================================================================== */
+        :root {
+            --primary-navy: #0F172A;
+            --brand-blue: #1E3A8A;
+            --secondary-blue: #2563EB;
+            --blue-hover: #1D4ED8;
+            --accent-gold: #D97706;
+            --bg-slate: #F8FAFC;
+            --card-white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --border-focus: #3B82F6;
+
+            --text-dark: #0F172A;
+            --text-body: #334155;
+            --text-muted: #64748B;
+
+            /* Feedback States */
+            --danger-color: #DC2626;
+            --danger-bg: #FEF2F2;
+            --danger-border: #FCA5A5;
+
+            /* Touch Target Minimums */
+            --min-touch-height: 48px;
+
+            /* Shadows & Transitions */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+
+            --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-lg: 12px;
+            --radius-md: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            background-image:
+                radial-gradient(at 50% 0%, rgba(30, 58, 138, 0.05) 0px, transparent 70%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.03) 0px, transparent 50%);
+            color: var(--text-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           2. LAYOUT CONTAINER
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .px-3 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .col-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .d-grid {
+            display: grid;
+        }
+
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1.25rem; }
+        .mb-0 { margin-bottom: 0; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-3 { margin-bottom: 1.25rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .me-1 { margin-right: 0.35rem; }
+
+        .text-muted { color: var(--text-muted) !important; }
+        .text-danger { color: var(--danger-color) !important; }
+        .small { font-size: 0.8125rem; }
+        .fw-medium { font-weight: 500; }
+        .opacity-25 { opacity: 0.25; }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+           3. INSTITUTIONAL CARD & HEADER
+           ========================================================================== */
+        .login-card {
+            background-color: var(--card-white);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--brand-blue);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            padding: 2.25rem 2rem;
+            box-shadow: var(--shadow-xl);
+            transition: var(--transition-smooth);
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.75rem 1.25rem;
+                border-radius: 10px;
+            }
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .brand-icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--brand-blue) 0%, var(--primary-navy) 100%);
+            color: #FFFFFF;
+            border-radius: 14px;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        }
+
+        .college-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+
+        .college-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 0.25rem;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+        }
+
+        .portal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: #F1F5F9;
+            color: var(--primary-navy);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+           4. FORM INPUTS & TOUCH TARGETS (MIN 48PX)
+           ========================================================================== */
+        .form-label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            width: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .input-group-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            height: var(--min-touch-height);
+            font-size: 1rem;
+            color: var(--text-muted);
+            background-color: #F8FAFC;
+            border: 1px solid var(--border-color);
+            border-right: none;
+            border-top-left-radius: var(--radius-md);
+            border-bottom-left-radius: var(--radius-md);
+            transition: var(--transition-smooth);
+        }
+
+        .form-control {
+            flex: 1 1 auto;
+            width: 1%;
+            height: var(--min-touch-height);
+            padding: 0.75rem 1rem;
+            font-size: 0.9375rem;
+            color: var(--text-dark);
+            background-color: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-top-right-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control::placeholder {
+            color: #94A3B8;
+        }
+
+        /* Focus state synchronization */
+        .form-control:focus {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            z-index: 2;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: var(--secondary-blue);
+            color: var(--secondary-blue);
+            background-color: #EFF6FF;
+        }
+
+        /* ==========================================================================
+           5. BUTTONS & ALERTS
+           ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: var(--min-touch-height);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-brand {
+            background: linear-gradient(180deg, var(--brand-blue) 0%, #172E6B 100%);
+            color: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+        }
+
+        .btn-brand:hover {
+            background: linear-gradient(180deg, #1D4ED8 0%, #152A60 100%);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-brand:focus-visible {
+            outline: 2px solid var(--secondary-blue);
+            outline-offset: 2px;
+        }
+
+        .btn-brand:active {
+            transform: translateY(1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Alert Box */
+        .alert {
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .alert-danger {
+            background-color: var(--danger-bg);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-border);
+        }
+
+        .alert-custom i {
+            font-size: 1.1rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        /* Institutional Security Footer Notice */
+        .portal-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.78125rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+        /* ==========================================================================
+   GLOBAL DREAMY LOADING OVERLAY
+   ========================================================================== */
+
+.global-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    visibility: hidden;
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
+
+    isolation: isolate;
+}
+
+.global-loader.active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* --------------------------------------------------------------------------
+   Frosted Glass Background
+   -------------------------------------------------------------------------- */
+
+.loader-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(219, 234, 254, 0.72),
+            rgba(239, 246, 255, 0.55) 35%,
+            rgba(248, 250, 252, 0.78) 70%,
+            rgba(255, 255, 255, 0.88)
+        );
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    opacity: 0.96;
+}
+
+/* --------------------------------------------------------------------------
+   Loader Content
+   -------------------------------------------------------------------------- */
+
+.loader-content {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 220px;
+    padding: 2rem 2.25rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, 0.32);
+
+    box-shadow:
+        0 20px 60px rgba(30, 58, 138, 0.12),
+        0 8px 30px rgba(37, 99, 235, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    transform: translateY(8px) scale(0.96);
+
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.3s ease;
+}
+
+.global-loader.active .loader-content {
+    transform: translateY(0) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   Main G Symbol
+   -------------------------------------------------------------------------- */
+
+.loader-symbol {
+    position: relative;
+
+    width: 92px;
+    height: 92px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 1.25rem;
+}
+
+/* Main G */
+
+.loader-g {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+
+    font-family:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        sans-serif;
+
+    font-size: 3.15rem;
+    font-weight: 700;
+    line-height: 1;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1E3A8A 0%,
+            #2563EB 35%,
+            #7C3AED 65%,
+            #EC4899 100%
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    filter:
+        drop-shadow(0 0 5px rgba(37, 99, 235, 0.35))
+        drop-shadow(0 0 15px rgba(124, 58, 237, 0.22));
+
+    animation:
+        dreamyPulse 2.2s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Rotating Ambient Rings
+   -------------------------------------------------------------------------- */
+
+.loader-orbit {
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 2px solid transparent;
+
+    pointer-events: none;
+}
+
+/* Outer orbit */
+
+.loader-orbit-one {
+    inset: 2px;
+
+    border-top-color: rgba(37, 99, 235, 0.75);
+    border-right-color: rgba(124, 58, 237, 0.42);
+    border-bottom-color: rgba(236, 72, 153, 0.28);
+    border-left-color: rgba(147, 197, 253, 0.35);
+
+    filter:
+        drop-shadow(0 0 6px rgba(37, 99, 235, 0.3))
+        drop-shadow(0 0 12px rgba(124, 58, 237, 0.2));
+
+    animation:
+        loaderSpin 2.1s linear infinite;
+}
+
+/* Inner orbit */
+
+.loader-orbit-two {
+    inset: 11px;
+
+    border-top-color: rgba(236, 72, 153, 0.65);
+    border-right-color: rgba(124, 58, 237, 0.3);
+    border-bottom-color: rgba(37, 99, 235, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.7);
+
+    filter:
+        drop-shadow(0 0 5px rgba(236, 72, 153, 0.25));
+
+    animation:
+        loaderSpinReverse 1.55s linear infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Ambient Glow Behind G
+   -------------------------------------------------------------------------- */
+
+.loader-symbol::before {
+    content: "";
+
+    position: absolute;
+
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(96, 165, 250, 0.28) 0%,
+            rgba(124, 58, 237, 0.16) 38%,
+            rgba(236, 72, 153, 0.08) 62%,
+            transparent 75%
+        );
+
+    filter: blur(10px);
+
+    animation:
+        ambientGlow 2.5s ease-in-out infinite;
+
+    z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Message
+   -------------------------------------------------------------------------- */
+
+.loader-message {
+    color: #1E3A8A;
+
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    letter-spacing: 0.01em;
+
+    text-align: center;
+
+    min-height: 20px;
+
+    text-shadow:
+        0 1px 10px rgba(37, 99, 235, 0.12);
+
+    animation:
+        messageFade 1.8s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Loading Dots
+   -------------------------------------------------------------------------- */
+
+.loader-dots {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 0.65rem;
+}
+
+.loader-dots span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563EB,
+            #7C3AED
+        );
+
+    opacity: 0.35;
+
+    animation:
+        dotPulse 1.4s ease-in-out infinite;
+}
+
+.loader-dots span:nth-child(2) {
+    animation-delay: 0.18s;
+}
+
+.loader-dots span:nth-child(3) {
+    animation-delay: 0.36s;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+
+@keyframes loaderSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes loaderSpinReverse {
+
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+
+}
+
+@keyframes dreamyPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+
+        filter:
+            drop-shadow(0 0 5px rgba(37, 99, 235, 0.30))
+            drop-shadow(0 0 12px rgba(124, 58, 237, 0.16));
+    }
+
+    50% {
+        transform: scale(1.06);
+
+        filter:
+            drop-shadow(0 0 9px rgba(37, 99, 235, 0.50))
+            drop-shadow(0 0 22px rgba(124, 58, 237, 0.30))
+            drop-shadow(0 0 30px rgba(236, 72, 153, 0.14));
+    }
+
+}
+
+@keyframes ambientGlow {
+
+    0%,
+    100% {
+        transform: scale(0.85);
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: scale(1.18);
+        opacity: 1;
+    }
+
+}
+
+@keyframes messageFade {
+
+    0%,
+    100% {
+        opacity: 0.72;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-3px);
+        opacity: 1;
+    }
+
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    .loader-content {
+        min-width: 190px;
+
+        padding:
+            1.6rem
+            1.8rem;
+
+        border-radius: 20px;
+    }
+
+    .loader-symbol {
+        width: 78px;
+        height: 78px;
+    }
+
+    .loader-g {
+        width: 50px;
+        height: 50px;
+
+        font-size: 2.7rem;
+    }
+
+    .loader-message {
+        font-size: 0.82rem;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .loader-g,
+    .loader-orbit,
+    .loader-symbol::before,
+    .loader-message,
+    .loader-dots span {
+        animation-duration: 3s;
+    }
+
+}
+        .footer-banner {
+            background-color: var(--card-white);
+            border-top: 1px solid var(--border-light);
+            padding: 1.25rem 0;
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            letter-spacing: 0.01em;
+        }
+             .footer-banner {
+                border-top: 1px solid #CBD5E1 !important;
+                font-size: 0.75rem !important;
+            }
+    </style>
+</head>
+<body>
+<!-- ==========================================================================
+     GLOBAL DREAMY LOADING OVERLAY
+     ========================================================================== -->
+<div id="globalLoader" class="global-loader" aria-hidden="true">
+
+    <div class="loader-backdrop"></div>
+
+    <div class="loader-content" role="status" aria-live="polite">
+
+        <div class="loader-symbol">
+            <div class="loader-orbit loader-orbit-one"></div>
+            <div class="loader-orbit loader-orbit-two"></div>
+
+            <div class="loader-g">
+                G
+            </div>
+        </div>
+
+        <div id="loaderMessage" class="loader-message">
+            Please wait...
+        </div>
+
+        <div class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </div>
+
+</div>
+    <div class="container px-3">
+        <div class="row justify-content-center">
+            <div class="col-12 d-flex justify-content-center">
+
+                <div class="login-card">
+                    <!-- Header / Logo Area -->
+                    <div class="brand-header">
+                        <div class="brand-icon-wrapper">
+                            <i class="fa-solid fa-building-columns brand-icon"></i>
+                        </div>
+                        <h1 class="college-title">G Pulla Reddy</h1>
+                        <div class="college-subtitle">Engineering College (Autonomous)</div>
+                        <div>
+                            <span class="portal-badge">
+                                <i class="fa-solid fa-user-shield"></i> Institutional Task Monitoring System
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Incorrect Login Alert -->
+                    {% if password == "false" %}
+                        <div class="alert alert-danger alert-custom mb-4" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>Incorrect Email or Password. Please try again.</div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Login Form -->
+                    <form action="/" method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                                <!-- Passing Bootstrap classes directly to the WTForms field -->
+                                {{ form.email(class="form-control", placeholder="Enter your email address") }}
+                            </div>
+                            <!-- Email Validation Errors -->
+                            {% for error in form.email.errors %}
+                                <div class="text-danger small mt-1 fw-medium">
+                                    <i class="fa-solid fa-circle-xmark me-1"></i>{{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            {{ form.password.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                                <!-- Passing Bootstrap classes directly to the WTForms field -->
+                                {{ form.password(class="form-control", placeholder="Enter your password") }}
+                            </div>
+                            <!-- Password Validation Errors -->
+                            {% for error in form.password.errors %}
+                                <div class="text-danger small mt-1 fw-medium">
+                                    <i class="fa-solid fa-circle-xmark me-1"></i>{{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-2">
+                            {{ form.submit(class="btn btn-brand btn-lg", value="Login") }}
+                        </div>
+                    </form>
+
+                    <!-- Institutional Security Note -->
+
+                   <footer class="footer-banner">
+        <div class="container">
+            G. Pulla Reddy Engineering College (Autonomous), Kurnool · Task Monitoring System
+        </div>
+    </footer>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script>
+/* ==========================================================================
+   GLOBAL DREAMY LOADER
+   --------------------------------------------------------------------------
+   Features:
+   - Loader.show("message")
+   - Loader.hide()
+   - Automatic fetch() detection
+   - Automatic beforeunload detection
+   - Delayed activation prevents flickering for fast requests
+   - Multiple simultaneous fetch requests are supported
+   ========================================================================== */
+
+(function () {
+
+    "use strict";
+
+    const loader = document.getElementById("globalLoader");
+    const loaderMessage = document.getElementById("loaderMessage");
+
+    if (!loader) {
+        console.warn("Global loader element was not found.");
+        return;
+    }
+
+    let manualLoader = false;
+    let activeFetches = 0;
+    let showTimer = null;
+
+    /*
+     * How long a request must take before the loader appears.
+     *
+     * Fast requests:
+     *     No loader flicker.
+     *
+     * Slow requests:
+     *     Loader appears automatically.
+     */
+    const FETCH_DELAY = 250;
+
+
+    /* ----------------------------------------------------------------------
+       INTERNAL SHOW
+       ---------------------------------------------------------------------- */
+
+    function activateLoader(message) {
+
+        if (message) {
+            loaderMessage.textContent = message;
+        }
+
+        loader.classList.add("active");
+        loader.setAttribute("aria-hidden", "false");
+    }
+
+
+    /* ----------------------------------------------------------------------
+       INTERNAL HIDE
+       ---------------------------------------------------------------------- */
+
+    function deactivateLoader() {
+
+        /*
+         * Do not hide the loader while a manual loader
+         * or another fetch request is still active.
+         */
+        if (manualLoader || activeFetches > 0) {
+            return;
+        }
+
+        loader.classList.remove("active");
+        loader.setAttribute("aria-hidden", "true");
+    }
+
+
+    /* ----------------------------------------------------------------------
+       PUBLIC LOADER API
+       ---------------------------------------------------------------------- */
+
+    window.Loader = {
+
+        /*
+         * Manually show loader.
+         *
+         * Example:
+         *
+         * Loader.show();
+         *
+         * Loader.show("Sending notifications...");
+         */
+        show: function (message = "Please wait...") {
+
+            manualLoader = true;
+
+            clearTimeout(showTimer);
+
+            activateLoader(message);
+        },
+
+
+        /*
+         * Manually hide loader.
+         *
+         * Example:
+         *
+         * Loader.hide();
+         */
+        hide: function () {
+
+            manualLoader = false;
+
+            clearTimeout(showTimer);
+
+            deactivateLoader();
+        },
+
+
+        /*
+         * Check whether loader is currently visible.
+         */
+        isVisible: function () {
+
+            return loader.classList.contains("active");
+
+        }
+
+    };
+
+
+    /* =========================================================================
+       AUTOMATIC FETCH INTERCEPTOR
+       ========================================================================= */
+
+    const originalFetch = window.fetch.bind(window);
+
+    window.fetch = function (...args) {
+
+        activeFetches++;
+
+        let requestFinished = false;
+
+        /*
+         * Do not immediately show the loader.
+         *
+         * This prevents the loader from flashing for very
+         * fast requests.
+         */
+        showTimer = setTimeout(function () {
+
+            if (activeFetches > 0) {
+
+                activateLoader("Loading...");
+
+            }
+
+        }, FETCH_DELAY);
+
+
+        function requestCompleted() {
+
+            if (requestFinished) {
+                return;
+            }
+
+            requestFinished = true;
+
+            activeFetches--;
+
+            if (activeFetches < 0) {
+                activeFetches = 0;
+            }
+
+            /*
+             * Only clear the timer when there are no
+             * remaining requests.
+             */
+            if (activeFetches === 0) {
+
+                clearTimeout(showTimer);
+
+                /*
+                 * Small delay makes the fade-out smoother
+                 * when requests finish very quickly.
+                 */
+                setTimeout(function () {
+
+                    deactivateLoader();
+
+                }, 100);
+
+            }
+
+        }
+
+
+        return originalFetch(...args)
+            .then(function (response) {
+
+                requestCompleted();
+
+                return response;
+
+            })
+            .catch(function (error) {
+
+                requestCompleted();
+
+                throw error;
+
+            });
+
+    };
+
+
+    /* =========================================================================
+       PAGE NAVIGATION
+       ========================================================================= */
+
+    /*
+     * Browser is about to leave the current page.
+     *
+     * This covers:
+     * - Clicking normal links
+     * - Refresh
+     * - Browser navigation
+     * - Leaving the page
+     * - Loading another Flask route
+     */
+    window.addEventListener("beforeunload", function () {
+
+        clearTimeout(showTimer);
+
+        /*
+         * Do not use Loader.show() here because the browser is
+         * already unloading the page.
+         */
+        activateLoader("Loading page...");
+
+    });
+
+
+    /* =========================================================================
+       NORMAL LINK NAVIGATION SUPPORT
+       ========================================================================= */
+
+    /*
+     * beforeunload normally handles this already.
+     *
+     * This listener makes the transition start slightly earlier
+     * for normal internal links.
+     */
+    document.addEventListener("click", function (event) {
+
+        const link = event.target.closest("a");
+
+        if (!link) {
+            return;
+        }
+
+        /*
+         * Ignore:
+         * - Ctrl + click
+         * - Cmd + click
+         * - Shift + click
+         * - Alt + click
+         * - Middle mouse button
+         * - JavaScript links
+         * - Anchor links
+         * - New tabs
+         */
+        if (
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
+            event.altKey ||
+            event.button !== 0
+        ) {
+            return;
+        }
+
+        const href = link.getAttribute("href");
+
+        if (
+            !href ||
+            href === "#" ||
+            href.startsWith("#") ||
+            href.startsWith("javascript:") ||
+            link.target === "_blank" ||
+            link.hasAttribute("download")
+        ) {
+            return;
+        }
+
+        /*
+         * Only show the loader for actual navigation.
+         */
+        activateLoader("Loading page...");
+
+    });
+
+
+    /* =========================================================================
+       FORM SUBMISSION SUPPORT
+       ========================================================================= */
+
+    /*
+     * This also helps when a Flask form is submitted and the next
+     * page takes some time to load.
+     *
+     * It does NOT modify or interfere with the form.
+     */
+    document.addEventListener("submit", function (event) {
+
+        /*
+         * Ignore forms that explicitly use target="_blank".
+         */
+        if (
+            event.target &&
+            event.target.target === "_blank"
+        ) {
+            return;
+        }
+
+        activateLoader("Processing...");
+
+    });
+
+
+    /* =========================================================================
+       OPTIONAL PAGE READY HANDLING
+       ========================================================================= */
+
+    /*
+     * If the browser restores a page from its back/forward cache,
+     * make sure the loader does not remain visible.
+     */
+    window.addEventListener("pageshow", function () {
+
+        clearTimeout(showTimer);
+
+        manualLoader = false;
+        activeFetches = 0;
+
+        loader.classList.remove("active");
+        loader.setAttribute("aria-hidden", "true");
+
+    });
+
+
+})();
+</script>
+</body>
+</html>
